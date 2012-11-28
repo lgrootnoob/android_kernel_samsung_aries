@@ -110,8 +110,8 @@
 #undef pr_debug
 #define pr_debug pr_info
 
-#if (defined(CONFIG_SAMSUNG_GALAXYS) && !defined(CONFIG_SAMSUNG_GALASYS_SC02B)) || \
-    defined (CONFIG_SAMSUNG_GALAXYSB)
+#if (defined(CONFIG_SAMSUNG_GALAXYS) && !defined(CONFIG_SAMSUNG_GALASYS_SC02B)) \
+     || defined (CONFIG_SAMSUNG_GALAXYSB)
 #define GALAXY_HAS_FM_RADIO
 #endif
 
@@ -168,6 +168,7 @@ static struct notifier_block aries_reboot_notifier = {
 	.notifier_call = aries_notifier_call,
 };
 
+#if !defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
 static void gps_gpio_init(void)
 {
 	struct device *gps_dev;
@@ -198,6 +199,7 @@ static void gps_gpio_init(void)
  err:
 	return;
 }
+#endif
 
 static void uart_switch_init(void)
 {
@@ -3511,17 +3513,33 @@ static struct gpio_init_data aries_init_gpios[] = {
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
 	}, { /* GPIO_DET_35 - 3.5" ear jack */
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH0(6),
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_NONE,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPH0(6), // GPIO_DET_35
 		.cfg	= S3C_GPIO_SFN(GPIO_DET_35_AF),
 		.val	= S3C_GPIO_SETPIN_NONE,
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	}, {
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH0(7),
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_NONE,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPH0(7), // GPIO_AP_PMIC_IRQ
 		.cfg	= S3C_GPIO_SFN(0xF),
 		.val	= S3C_GPIO_SETPIN_NONE,
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	},
 
 	// GPH1 ----------------------------
@@ -3572,23 +3590,47 @@ static struct gpio_init_data aries_init_gpios[] = {
 		.pud	= S3C_GPIO_PULL_DOWN,
 		.drv	= S3C_GPIO_DRVSTR_1X,
 	}, { /* NFC_EN */
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH1(5),
+		.cfg	= S3C_GPIO_INPUT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_DOWN,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPH1(5),
 		.cfg	= S3C_GPIO_OUTPUT,
 		.val	= S3C_GPIO_SETPIN_ONE,
 		.pud	= S3C_GPIO_PULL_DOWN,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	}, { /* NFC_FIRM */
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH1(6),
+		.cfg	= S3C_GPIO_INPUT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_DOWN,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPH1(6),
 		.cfg	= S3C_GPIO_OUTPUT,
 		.val	= S3C_GPIO_SETPIN_ZERO,
 		.pud	= S3C_GPIO_PULL_DOWN,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	}, {
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH1(7),
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_NONE,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPH1(7), // GPIO_PHONE_ACTIVE
 		.cfg	= S3C_GPIO_SFN(0xF),
 		.val	= S3C_GPIO_SETPIN_NONE,
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	},
 
 	// GPH2 ----------------------------
@@ -3623,17 +3665,33 @@ static struct gpio_init_data aries_init_gpios[] = {
 		.pud	= S3C_GPIO_PULL_DOWN,
 		.drv	= S3C_GPIO_DRVSTR_1X,
 	}, {
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH2(5),
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_DOWN,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPH2(5), // GPIO_BT_HOST_WAKE
 		.cfg	= S3C_GPIO_SFN(0xF),
 		.val	= S3C_GPIO_SETPIN_NONE,
 		.pud	= S3C_GPIO_PULL_DOWN,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	}, {
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH2(6),
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_NONE,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPH2(6), // GPIO_nPOWER
 		.cfg	= S3C_GPIO_SFN(0xF),
 		.val	= S3C_GPIO_SETPIN_NONE,
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	}, {
 		.num	= S5PV210_GPH2(7), // GPIO_JACK_nINT
 		.cfg	= S3C_GPIO_INPUT,
@@ -3650,17 +3708,33 @@ static struct gpio_init_data aries_init_gpios[] = {
 		.pud	= S3C_GPIO_PULL_DOWN,
 		.drv	= S3C_GPIO_DRVSTR_1X,
 	}, {
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH3(1),
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_NONE,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPH3(1),
 		.cfg	= S3C_GPIO_SFN(0xF),
 		.val	= S3C_GPIO_SETPIN_NONE,
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	}, {
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH3(2),
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_NONE,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPH3(2),
 		.cfg	= S3C_GPIO_SFN(0xF),
 		.val	= S3C_GPIO_SETPIN_NONE,
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	}, {
 		.num	= S5PV210_GPH3(3),
 		.cfg	= S3C_GPIO_INPUT,
@@ -3674,7 +3748,13 @@ static struct gpio_init_data aries_init_gpios[] = {
 		.pud	= S3C_GPIO_PULL_DOWN,
 		.drv	= S3C_GPIO_DRVSTR_1X,
 	}, {
-#if defined (CONFIG_SAMSUNG_GALAXYS) || defined (CONFIG_SAMSUNG_GALAXYSB) /* HOME Key */
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH3(5), // GPIO_MSENSE_IRQ
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_NONE,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#elif defined (CONFIG_SAMSUNG_GALAXYS) || defined (CONFIG_SAMSUNG_GALAXYSB) /* HOME Key */
 		.num	= S5PV210_GPH3(5), // GPIO_MSENSE_IRQ
 		.cfg	= S3C_GPIO_SFN(0xF),
 		.val	= S3C_GPIO_SETPIN_NONE,
@@ -3688,7 +3768,13 @@ static struct gpio_init_data aries_init_gpios[] = {
 		.drv	= S3C_GPIO_DRVSTR_1X,
 #endif
 	}, { /* GPIO_EAR_SEND_END */
-#if defined(CONFIG_SAMSUNG_CAPTIVATE) || defined (CONFIG_SAMSUNG_VIBRANT)
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPH3(6),
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_NONE,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#elif defined(CONFIG_SAMSUNG_CAPTIVATE) || defined (CONFIG_SAMSUNG_VIBRANT)
 		.num	= S5PV210_GPH3(6), // GPIO_EAR_SEND_END
 		.cfg	= S3C_GPIO_INPUT,
 		.val	= S3C_GPIO_SETPIN_NONE,
@@ -4011,11 +4097,19 @@ static struct gpio_init_data aries_init_gpios[] = {
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
 	}, {
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+		.num	= S5PV210_GPJ4(1),
+		.cfg	= S3C_GPIO_EINT,
+		.val	= S3C_GPIO_SETPIN_NONE,
+		.pud	= S3C_GPIO_PULL_NONE,
+		.drv	= S3C_GPIO_DRVSTR_1X,
+#else
 		.num	= S5PV210_GPJ4(1), // _3_GPIO_TOUCH_INT
 		.cfg	= S3C_GPIO_SFN(0xF),
 		.val	= S3C_GPIO_SETPIN_NONE,
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	}, {
 		.num	= S5PV210_GPJ4(2), // GPIO_MICBIAS_EN
 		.cfg	= S3C_GPIO_OUTPUT,
@@ -4056,11 +4150,13 @@ static struct gpio_init_data aries_init_gpios[] = {
 		.pud	= S3C_GPIO_PULL_DOWN,
 		.drv	= S3C_GPIO_DRVSTR_1X,
 	}, {
+#if !defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
 		.num	= S5PV210_MP01(5), // GPIO_DIC_ID
 		.cfg	= S3C_GPIO_INPUT,
 		.val	= S3C_GPIO_SETPIN_NONE,
 		.pud	= S3C_GPIO_PULL_DOWN,
 		.drv	= S3C_GPIO_DRVSTR_1X,
+#endif
 	},
 
 	// MP02 ----------------------------
@@ -4159,6 +4255,7 @@ static struct gpio_init_data aries_init_gpios[] = {
 
 	// MP05 ----------------------------
 	{
+#if !defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
 		.num	= S5PV210_MP05(0), // FUEL_SCL_18V
 		.cfg	= S3C_GPIO_INPUT,
 		.val	= S3C_GPIO_SETPIN_NONE,
@@ -4183,6 +4280,7 @@ static struct gpio_init_data aries_init_gpios[] = {
 		.pud	= S3C_GPIO_PULL_NONE,
 		.drv	= S3C_GPIO_DRVSTR_1X,
 	}, {
+#endif
 		.num	= S5PV210_MP05(4),
 		.cfg	= S3C_GPIO_INPUT,
 		.val	= S3C_GPIO_SETPIN_NONE,
@@ -4354,8 +4452,13 @@ static unsigned int aries_sleep_gpio_table[][3] = {
 	{ S5PV210_GPD0(3), S3C_GPIO_SLP_INPUT,	S3C_GPIO_PULL_DOWN},
 
 	// GPD1 ---------------------------------------------------
+#if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
+	{ S5PV210_GPD1(0), S3C_GPIO_SLP_INPUT,	S3C_GPIO_PULL_DOWN},
+	{ S5PV210_GPD1(1), S3C_GPIO_SLP_INPUT,	S3C_GPIO_PULL_DOWN},
+#else
 	{ S5PV210_GPD1(0), S3C_GPIO_SLP_INPUT,	S3C_GPIO_PULL_NONE},
 	{ S5PV210_GPD1(1), S3C_GPIO_SLP_INPUT,	S3C_GPIO_PULL_NONE},
+#endif
 #if defined (CONFIG_SAMSUNG_CAPTIVATE) || defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
 	{ S5PV210_GPD1(2), S3C_GPIO_SLP_INPUT,  S3C_GPIO_PULL_DOWN},	//GPIO_GPD12
 	{ S5PV210_GPD1(3), S3C_GPIO_SLP_INPUT,  S3C_GPIO_PULL_DOWN},	//GPIO_GPD13
@@ -4861,7 +4964,9 @@ void s3c_config_sleep_gpio(void)
 #else
 	s3c_gpio_setpull(S5PV210_GPH3(7), S3C_GPIO_PULL_NONE);
 #endif
+#if !defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
 	gpio_set_value(S5PV210_GPH2(3), 1);
+#endif
 
 #if !defined(CONFIG_SAMSUNG_FASCINATE)
 	if (gpio_get_value(GPIO_PS_ON)) {
@@ -5620,8 +5725,9 @@ static void __init aries_machine_init(void)
 	register_reboot_notifier(&aries_reboot_notifier);
 
 	aries_switch_init();
-
+#if !defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
 	gps_gpio_init();
+#endif
 
 	uart_switch_init();
 
