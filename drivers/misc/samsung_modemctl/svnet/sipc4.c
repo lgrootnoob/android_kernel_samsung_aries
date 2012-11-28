@@ -1615,7 +1615,7 @@ int sipc_read(struct sipc *si, u32 mailbox, int *cond)
 			res = mb_data[i].mask_res_ack;
 	}
 
-#if !defined(CONFIG_ARIES_NTT)
+#if !defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
 	_req_rel_auth(si);
 #endif
 
