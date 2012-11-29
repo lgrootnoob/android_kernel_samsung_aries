@@ -61,7 +61,7 @@ struct mtd_partition s3c_partition_info[] = {
 	           able to change the other partition layout without moving it */
 		.name		= "radio",
 		.offset		= (1940*SZ_256K),
-		.size		= (76*SZ_256K), //2015
+		.size		= (80*SZ_256K), //2019
 	},
 	{       /* The reservoir area is used by Samsung's Block Management Layer (BML)
 	           to map good blocks from this reservoir to bad blocks in user
@@ -70,8 +70,8 @@ struct mtd_partition s3c_partition_info[] = {
 	           Currently, this is required for flashing the "boot" partition,
 	           as Samsung's stock bootloader expects BML partitions.*/
 		.name		= "reservoir",
-		.offset		= (2016*SZ_256K),
-		.size		= (32*SZ_256K), //2047
+		.offset		= (2020*SZ_256K),
+		.size		= (28*SZ_256K), //2047
 	},
 
 
