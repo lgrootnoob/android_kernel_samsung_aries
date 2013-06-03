@@ -15,12 +15,17 @@ echo "OUTPUT_DIR="$OUTPUT_DIR
 echo "CWM_DIR="$CWM_DIR
 echo "MODULES_DIR="$MODULES_DIR
 
-make
+make modules
 
 rm `echo $MODULES_DIR"/*"`
 find $KERNEL_DIR -name '*.ko' -exec cp -v {} $MODULES_DIR \;
+chmod 644 `echo $MODULES_DIR"/*"`
+
+make zImage
+
 cp arch/arm/boot/zImage $CWM_DIR"boot.img"
 cd $CWM_DIR
+
 zip -r `echo $BUILDVERSION`.zip *
 mv  `echo $BUILDVERSION`.zip ../$OUTPUT_DIR"/"
 
