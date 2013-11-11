@@ -206,9 +206,6 @@ static const struct attribute_group modemctl_group = {
 	.attrs = modemctl_attributes,
 };
 
-/* declare mailbox init function for xmm */
-extern void onedram_init_mailbox(void);
-
 #if defined(CONFIG_SAMSUNG_GALAXYS_SC02B)
 static void msm_on(struct modemctl *mc)
 {
@@ -286,6 +283,9 @@ static void msm_boot_off(struct modemctl *mc)
 		gpio_set_value(mc->gpio_flm_sel, 0);
 }
 #else
+/* declare mailbox init function for xmm */
+extern void onedram_init_mailbox(void);
+
 static void xmm_on(struct modemctl *mc)
 {
 	dev_dbg(mc->dev, "%s\n", __func__);
