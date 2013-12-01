@@ -14,12 +14,12 @@
 /* The S5PV210/S5PC110 implementations are as belows. */
 
 	.macro fifo_level_s5pv210 rd, rx
-		ldr	\rd, [ \rx, # S3C2410_UFSTAT ]
+		ldr	\rd, [\rx, # S3C2410_UFSTAT ]
 		and	\rd, \rd, #S5PV210_UFSTAT_TXMASK
 	.endm
 
 	.macro  fifo_full_s5pv210 rd, rx
-		ldr	\rd, [ \rx, # S3C2410_UFSTAT ]
+		ldr	\rd, [\rx, # S3C2410_UFSTAT ]
 		tst	\rd, #S5PV210_UFSTAT_TXFULL
 	.endm
 
@@ -27,7 +27,7 @@
  * most widely re-used */
 
 	.macro fifo_level_s3c2440 rd, rx
-		ldr	\rd, [ \rx, # S3C2410_UFSTAT ]
+		ldr	\rd, [\rx, # S3C2410_UFSTAT ]
 		and	\rd, \rd, #S3C2440_UFSTAT_TXMASK
 	.endm
 
@@ -36,7 +36,7 @@
 #endif
 
 	.macro  fifo_full_s3c2440 rd, rx
-		ldr	\rd, [ \rx, # S3C2410_UFSTAT ]
+		ldr	\rd, [\rx, # S3C2410_UFSTAT ]
 		tst	\rd, #S3C2440_UFSTAT_TXFULL
 	.endm
 
