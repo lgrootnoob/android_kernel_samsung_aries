@@ -1,6 +1,6 @@
 #!/bin/bash
-echo "Making JB-4.2/CM-10.1 kernel for GS1 NTT-Docomo SC-02B"
-BUILDVERSION=notest-kk44-sc02b-`date +%Y%m%d`
+echo "Making KK44/CM-11 kernel for GS1 NTT-Docomo SC-02B"
+BUILDVERSION=notest-kk44-sc02b-`date +%Y%m%d`-twrp
 DATE_START=$(date +"%s")
 
 make "cyanogenmod_galaxys_sc02b_defconfig"
