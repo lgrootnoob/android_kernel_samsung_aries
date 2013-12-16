@@ -4835,9 +4835,10 @@ void s3c_config_sleep_gpio_table(int array_size, unsigned int (*gpio_table)[3])
 
 void s3c_config_sleep_gpio(void)
 {
-#if defined(CONFIG_SAMSUNG_CAPTIVATE)
+#if defined(CONFIG_SAMSUNG_CAPTIVATE) || (CONFIG_SAMSUNG_GALAXYS_SC02B)
 	// Reported to cause battery drain and other things on captivate, so we'll
 	// disable this for now.
+	// Try avoid SOD while OC with varm over 1275000
 	return;
 #endif
 
