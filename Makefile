@@ -195,7 +195,7 @@ export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?= arm
 #CROSS_COMPILE	?= /media/DATA2/arm-eabi-4.6/bin/arm-eabi-
 #CROSS_COMPILE	?= /media/DATA2/android-toolchain-eabi/bin/arm-eabi-
-CROSS_COMPILE	?= /media/DATA2/gcc-linaro-arm-linux-gnueabihf-4.8-2013.12_linux/bin/arm-linux-gnueabihf-
+CROSS_COMPILE	?= /media/DATA2/gcc-linaro-arm-linux-gnueabihf-4.8-2014.01_linux/bin/arm-linux-gnueabihf-
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
