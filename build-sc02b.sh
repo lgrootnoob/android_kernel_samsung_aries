@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$CPU_JOB_NUM" = "" ] ; then
+	CPU_JOB_NUM=`grep -c processor /proc/cpuinfo`
+fi
+
 echo "Making KK44/CM-11 kernel for GS1 NTT-Docomo SC-02B"
 BUILDVERSION=notest-kk44-sc02b-`date +%Y%m%d`-twrp
 DATE_START=$(date +"%s")
@@ -15,13 +19,13 @@ echo "OUTPUT_DIR="$OUTPUT_DIR
 echo "CWM_DIR="$CWM_DIR
 echo "MODULES_DIR="$MODULES_DIR
 
-make modules
+make -j$CPU_JOB_NUM modules
 
 rm `echo $MODULES_DIR"/*"`
 find $KERNEL_DIR -name '*.ko' -exec cp -v {} $MODULES_DIR \;
 chmod 644 `echo $MODULES_DIR"/*"`
 
-make zImage
+make -j$CPU_JOB_NUM zImage
 
 cp arch/arm/boot/zImage $CWM_DIR"boot.img"
 cd $CWM_DIR
