@@ -2074,7 +2074,7 @@ static inline int security_inode_init_security(struct inode *inode,
 						void **value,
 						size_t *len)
 {
-       return -EOPNOTSUPP;
+       return 0;
 }
 
 static inline int security_new_inode_init_security(struct inode *inode,
