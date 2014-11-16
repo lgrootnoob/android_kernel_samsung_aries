@@ -69,6 +69,12 @@
 		{ GC_GREEDY,	"Greedy" },				\
 		{ GC_CB,	"Cost-Benefit" })
 
+#define show_cpreason(type)						\
+	__print_symbolic(type,						\
+		{ CP_UMOUNT,	"Umount" },				\
+		{ CP_SYNC,	"Sync" },				\
+		{ CP_DISCARD,	"Discard" })
+
 struct victim_sel_policy;
 
 DECLARE_EVENT_CLASS(f2fs__inode,
@@ -692,8 +698,8 @@ DECLARE_EVENT_CLASS(f2fs__submit_bio,
 		__entry->dev		= sb->s_dev;
 		__entry->rw		= rw;
 		__entry->type		= type;
-		__entry->sector		= bio->bi_sector;
-		__entry->size		= bio->bi_size;
+		__entry->sector		= bio->bi_iter.bi_sector;
+		__entry->size		= bio->bi_iter.bi_size;
 	),
 
 	TP_printk("dev = (%d,%d), %s%s, %s, sector = %lld, size = %u",
@@ -868,6 +874,7 @@ TRACE_EVENT(f2fs_writepages,
 		__field(char,	tagged_writepages)
 		__field(char,	for_reclaim)
 		__field(char,	range_cyclic)
+		__field(char,	for_sync)
 	),
 
 	TP_fast_assign(
@@ -886,11 +893,12 @@ TRACE_EVENT(f2fs_writepages,
 		__entry->tagged_writepages	= wbc->tagged_writepages;
 		__entry->for_reclaim	= wbc->for_reclaim;
 		__entry->range_cyclic	= wbc->range_cyclic;
+		__entry->for_sync	= wbc->for_sync;
 	),
 
 	TP_printk("dev = (%d,%d), ino = %lu, %s, %s, nr_to_write %ld, "
 		"skipped %ld, start %lld, end %lld, wb_idx %lu, sync_mode %d, "
-		"kupdate %u background %u tagged %u reclaim %u cyclic %u",
+		"kupdate %u background %u tagged %u reclaim %u cyclic %u sync %u",
 		show_dev_ino(__entry),
 		show_block_type(__entry->type),
 		show_file_type(__entry->dir),
@@ -904,7 +912,8 @@ TRACE_EVENT(f2fs_writepages,
 		__entry->for_background,
 		__entry->tagged_writepages,
 		__entry->for_reclaim,
-		__entry->range_cyclic)
+		__entry->range_cyclic,
+		__entry->for_sync)
 );
 
 TRACE_EVENT(f2fs_submit_page_mbio,
@@ -941,25 +950,25 @@ TRACE_EVENT(f2fs_submit_page_mbio,
 
 TRACE_EVENT(f2fs_write_checkpoint,
 
-	TP_PROTO(struct super_block *sb, bool is_umount, char *msg),
+	TP_PROTO(struct super_block *sb, int reason, char *msg),
 
-	TP_ARGS(sb, is_umount, msg),
+	TP_ARGS(sb, reason, msg),
 
 	TP_STRUCT__entry(
 		__field(dev_t,	dev)
-		__field(bool,	is_umount)
+		__field(int,	reason)
 		__field(char *,	msg)
 	),
 
 	TP_fast_assign(
 		__entry->dev		= sb->s_dev;
-		__entry->is_umount	= is_umount;
+		__entry->reason		= reason;
 		__entry->msg		= msg;
 	),
 
 	TP_printk("dev = (%d,%d), checkpoint for %s, state = %s",
 		show_dev(__entry),
-		__entry->is_umount ? "clean umount" : "consistency",
+		show_cpreason(__entry->reason),
 		__entry->msg)
 );
 
