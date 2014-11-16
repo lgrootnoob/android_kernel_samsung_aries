@@ -60,7 +60,7 @@ repeat:
 		goto out;
 
 	if (f2fs_submit_page_bio(sbi, page, index,
-				READ_SYNC | REQ_META | REQ_PRIO))
+				READ_SYNC | REQ_META))
 		goto repeat;
 
 	lock_page(page);
@@ -117,7 +117,7 @@ int ra_meta_pages(struct f2fs_sb_info *sbi, block_t start, int nrpages, int type
 
 	struct f2fs_io_info fio = {
 		.type = META,
-		.rw = READ_SYNC | REQ_META | REQ_PRIO
+		.rw = READ_SYNC | REQ_META
 	};
 
 	for (; nrpages-- > 0; blkno++) {

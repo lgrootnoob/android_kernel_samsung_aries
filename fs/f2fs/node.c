@@ -1745,7 +1745,7 @@ static int ra_sum_pages(struct f2fs_sb_info *sbi, struct page **pages,
 	int i, page_idx = start;
 	struct f2fs_io_info fio = {
 		.type = META,
-		.rw = READ_SYNC | REQ_META | REQ_PRIO
+		.rw = READ_SYNC | REQ_META
 	};
 
 	for (i = 0; page_idx < start + nrpages; page_idx++, i++) {

@@ -82,7 +82,7 @@ int f2fs_convert_inline_page(struct dnode_of_data *dn, struct page *page)
 	block_t new_blk_addr;
 	struct f2fs_io_info fio = {
 		.type = DATA,
-		.rw = WRITE_SYNC | REQ_PRIO,
+		.rw = WRITE_SYNC,
 	};
 	int err;
 
