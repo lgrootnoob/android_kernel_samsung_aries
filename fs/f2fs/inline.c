@@ -81,7 +81,7 @@ int f2fs_convert_inline_page(struct dnode_of_data *dn, struct page *page)
 	void *src_addr, *dst_addr;
 	struct f2fs_io_info fio = {
 		.type = DATA,
-		.rw = WRITE_SYNC | REQ_PRIO,
+		.rw = WRITE_SYNC,
 	};
 	int dirty, err;
 

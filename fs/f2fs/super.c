@@ -543,9 +543,9 @@ static int f2fs_statfs(struct dentry *dentry, struct kstatfs *buf)
 	return 0;
 }
 
-static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
+static int f2fs_show_options(struct seq_file *seq, struct vfsmount *vfs)
 {
-	struct f2fs_sb_info *sbi = F2FS_SB(root->d_sb);
+	struct f2fs_sb_info *sbi = F2FS_SB(vfs->mnt_sb);
 
 	if (!f2fs_readonly(sbi->sb) && test_opt(sbi, BG_GC))
 		seq_printf(seq, ",background_gc=%s", "on");
@@ -980,7 +980,6 @@ try_onemore:
 		goto free_sb_buf;
 
 	sb->s_maxbytes = max_file_size(le32_to_cpu(raw_super->log_blocksize));
-	sb->s_max_links = F2FS_LINK_MAX;
 	get_random_bytes(&sbi->s_next_generation, sizeof(u32));
 
 	sb->s_op = &f2fs_sops;
@@ -1091,7 +1090,7 @@ try_onemore:
 		goto free_node_inode;
 	}
 
-	sb->s_root = d_make_root(root); /* allocate root dentry */
+	sb->s_root = d_alloc_root(root); /* allocate root dentry */
 	if (!sb->s_root) {
 		err = -ENOMEM;
 		goto free_root_inode;
@@ -1157,8 +1156,7 @@ free_proc:
 	}
 	f2fs_destroy_stats(sbi);
 free_root_inode:
-	dput(sb->s_root);
-	sb->s_root = NULL;
+	iput(root);
 free_node_inode:
 	iput(sbi->node_inode);
 free_nm:
@@ -1197,6 +1195,7 @@ static struct file_system_type f2fs_fs_type = {
 	.kill_sb	= kill_block_super,
 	.fs_flags	= FS_REQUIRES_DEV,
 };
+MODULE_ALIAS_FS("f2fs");
 
 static int __init init_inodecache(void)
 {
