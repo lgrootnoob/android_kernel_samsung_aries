@@ -53,7 +53,7 @@ struct page *get_meta_page(struct f2fs_sb_info *sbi, pgoff_t index)
 	struct page *page;
 	struct f2fs_io_info fio = {
 		.type = META,
-		.rw = READ_SYNC | REQ_META | REQ_PRIO,
+		.rw = READ_SYNC | REQ_META,
 		.blk_addr = index,
 	};
 repeat:
@@ -120,7 +120,7 @@ int ra_meta_pages(struct f2fs_sb_info *sbi, block_t start, int nrpages, int type
 	block_t blkno = start;
 	struct f2fs_io_info fio = {
 		.type = META,
-		.rw = READ_SYNC | REQ_META | REQ_PRIO
+		.rw = READ_SYNC | REQ_META
 	};
 
 	for (; nrpages-- > 0; blkno++) {
