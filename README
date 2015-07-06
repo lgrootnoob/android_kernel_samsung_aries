@@ -3,7 +3,9 @@ Skiddy Tweaks. Specially crafted to piss real devs the fuck off. ;)
 illegal exfat-nofuse
 f2fs-backport
 twrp
+reduce logging
 img packing
+
 build.prop:
 profiler.force_disable_err_rpt=1
 profiler.force_disable_ulog=1
