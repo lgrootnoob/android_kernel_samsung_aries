@@ -78,12 +78,10 @@ enum s5pv210_dmc_port {
 static struct cpufreq_frequency_table s5pv210_freq_table[] = {
 	{OC0, 1320*1000},
 	{OC1, 1200*1000},
-	{OC2, 1100*1000},
 	{L0, 1000*1000},
 	{L1, 800*1000},
 	{L2, 400*1000},
 	{L3, 200*1000},
-	{L4, 100*1000},
 	{0, CPUFREQ_TABLE_END},
 };
 
@@ -102,19 +100,15 @@ static unsigned int g_dvfslockval[DVFS_LOCK_TOKEN_NUM];
 //static DEFINE_MUTEX(dvfs_high_lock);
 #endif
 
-const unsigned long arm_volt_max = 1350000;
+const unsigned long arm_volt_max = 1355000;
 const unsigned long int_volt_max = 1250000;
 
 static struct s5pv210_dvs_conf dvs_conf[] = {
 	[OC0] = {
-		.arm_volt   = 1350000,
+		.arm_volt   = 1355000,
 		.int_volt   = 1200000,
 	},
 	[OC1] = {
-		.arm_volt   = 1275000,
-		.int_volt   = 1100000,
-	},
-	[OC2] = {
 		.arm_volt   = 1275000,
 		.int_volt   = 1100000,
 	},
@@ -134,10 +128,6 @@ static struct s5pv210_dvs_conf dvs_conf[] = {
 		.arm_volt   = 950000,
 		.int_volt   = 1100000,
 	},
-	[L4] = {
-		.arm_volt   = 950000,
-		.int_volt   = 1000000,
-	},
 };
 
 static u32 clkdiv_val[8][11] = {
@@ -154,9 +144,6 @@ static u32 clkdiv_val[8][11] = {
 	/* OC1 : [1200/200/100][166/83][133/66][200/200] */
 	{0, 5, 5, 1, 3, 1, 4, 1, 3, 0, 0},
 
-	/* OC2 : [1100/200/100][166/83][133/66][200/200] */
-	{0, 5, 5, 1, 3, 1, 4, 1, 3, 0, 0},
-
 	/* L0 : [1000/200/100][166/83][133/66][200/200] */
 	{0, 4, 4, 1, 3, 1, 4, 1, 3, 0, 0},
 
@@ -168,9 +155,6 @@ static u32 clkdiv_val[8][11] = {
 
 	/* L3 : [200/200/100][166/83][133/66][200/200] */
 	{3, 3, 0, 1, 3, 1, 4, 1, 3, 0, 0},
-
-	/* L4 : [100/100/100][83/83][66/66][100/100] */
-	{7, 7, 0, 0, 7, 0, 9, 0, 7, 0, 0},
 };
 
 /*
@@ -476,12 +460,6 @@ static int s5pv210_target(struct cpufreq_policy *policy,
 		switch (index) {
 		case OC0:
 			__raw_writel(APLL_VAL_1320, S5P_APLL_CON);
-			break;
-		case OC1:
-			__raw_writel(APLL_VAL_1200, S5P_APLL_CON);
-			break;
-		case OC2:
-			__raw_writel(APLL_VAL_1100, S5P_APLL_CON);
 			break;
 		case L0:
 			__raw_writel(APLL_VAL_1000, S5P_APLL_CON);
