@@ -5,6 +5,8 @@ f2fs-backport
 twrp
 reduce logging
 img packing
+gcc linaro 4.9 at the least
+justarchi
 
 build.prop:
 profiler.force_disable_err_rpt=1
@@ -12,6 +14,7 @@ profiler.force_disable_ulog=1
 ro.config.nocheckin=1
 
 Rom:
+Optipop
 User Builds
 Debloat and offer zip to flash back
 ART is default
