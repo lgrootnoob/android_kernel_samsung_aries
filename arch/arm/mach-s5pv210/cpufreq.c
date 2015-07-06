@@ -32,14 +32,16 @@ static struct clk *dmc1_clk;
 static struct cpufreq_freqs freqs;
 static DEFINE_MUTEX(set_freq_lock);
 
-/* APLL M,P,S values for 1.32G/1.2G/1.1G/1.0G/800Mhz */
+/* you would have to be completely fucking retarded to need documentaion for this shit
+* a skiddy can figure this out >5 seconds
+*/
 #define APLL_VAL_1320   ((1 << 31) | (330 << 16) | (6 << 8) | 1)
 #define APLL_VAL_1200	((1 << 31) | (150 << 16) | (3 << 8) | 1)
 #define APLL_VAL_1100   ((1 << 31) | (141 << 16) | (3 << 8) | 1)
 #define APLL_VAL_1000	((1 << 31) | (125 << 16) | (3 << 8) | 1)
 #define APLL_VAL_800	((1 << 31) | (100 << 16) | (3 << 8) | 1)
 
-#define SLEEP_FREQ	(800 * 1000) /* Use 800MHz when entering sleep */
+#define SLEEP_FREQ	(400 * 1000) /* Use 6969MHz when entering _XxXsleepmode420_xXx */
 
 /*
  * relation has an additional symantics other than the standard of cpufreq
@@ -130,7 +132,7 @@ static struct s5pv210_dvs_conf dvs_conf[] = {
 	},
 };
 
-static u32 clkdiv_val[8][11] = {
+static u32 clkdiv_val[6][11] = {
 	/*
 	 * Clock divider value for following
 	 * { APLL, A2M, HCLK_MSYS, PCLK_MSYS,
