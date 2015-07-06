@@ -7,6 +7,7 @@ img packing
 build.prop:
 profiler.force_disable_err_rpt=1
 profiler.force_disable_ulog=1
+ro.config.nocheckin=1
 
 	Linux kernel release 3.0.101 codename "yourgrandmother'skernel" <http://kernel.org/>
 
