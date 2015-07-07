@@ -8,6 +8,7 @@ reduce logging
 img packing
 gcc linaro 4.9 at the least
 justarchi
+cross-compare https://github.com/didhiy/ramdisk-aries/tree/aries-cm-11.0/ramdisk-recovery with a ramdisk from finalcm11
 
 build.prop:
 profiler.force_disable_err_rpt=1
