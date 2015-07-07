@@ -340,11 +340,11 @@ static int s5pv210_target(struct cpufreq_policy *policy,
 	/* may not be accurate. Compare against freqs.old instead */
 
 	/* Check if there need to change PLL */
-	if ((index <= L0) || (freqs.old >= s5pv210_freq_table[L0].frequency))
+	if ((index <= OC0) || (freqs.old >= s5pv210_freq_table[OC0].frequency))
 		pll_changing = 1;
 
 	/* Check if there need to change System bus clock */
-	if ((index == L4) || (freqs.old == s5pv210_freq_table[L4].frequency))
+	if ((index == L3) || (freqs.old == s5pv210_freq_table[L3].frequency))
 		bus_speed_changing = 1;
 
 	if (bus_speed_changing) {
