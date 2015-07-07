@@ -195,7 +195,7 @@ export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?= arm
 #CROSS_COMPILE	?= /media/DATA2/arm-eabi-4.6/bin/arm-eabi-
 #CROSS_COMPILE	?= /media/DATA2/android-toolchain-eabi/bin/arm-eabi-
-CROSS_COMPILE	?= /media/DATA2/gcc-linaro-arm-linux-gnueabihf-4.8-2014.02_linux/bin/arm-linux-gnueabihf-
+CROSS_COMPILE	?= /home/jacob/arm-cortex_a8-linux-gnueabi-linaro_4.9-master/bin/arm-cortex_a8-linux-gnueabi-
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
@@ -247,8 +247,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer
-HOSTCXXFLAGS = -O2
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer
+HOSTCXXFLAGS = -O3
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
