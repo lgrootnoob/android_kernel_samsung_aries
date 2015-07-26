@@ -114,6 +114,9 @@
 #undef pr_debug
 #define pr_debug pr_info
 
+bool bigmem;
+EXPORT_SYMBOL(bigmem);
+
 #if (defined(CONFIG_SAMSUNG_GALAXYS) && !defined(CONFIG_SAMSUNG_GALASYS_SC02B)) \
      || defined (CONFIG_SAMSUNG_GALAXYSB)
 #define GALAXY_HAS_FM_RADIO
@@ -159,9 +162,16 @@ static int aries_notifier_call(struct notifier_block *this,
 
 	if ((code == SYS_RESTART) && _cmd) {
 		if (!strcmp((char *)_cmd, "recovery"))
-			mode = 2; // It's not REBOOT_MODE_RECOVERY, blame Samsung
-		else
-			mode = REBOOT_MODE_NONE;
+			if (bigmem)
+				mode = 9;
+			else
+				mode = 2; // It's not REBOOT_MODE_RECOVERY, blame Samsung
+		else {
+			if (bigmem)
+				mode = 7;
+			else
+				mode = REBOOT_MODE_NONE;
+		}
 	}
 	__raw_writel(mode, S5P_INFORM6);
 
@@ -321,9 +331,11 @@ static struct s3cfb_lcd s6e63m0 = {
 };
 
 #define  S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMC0 (12288 * SZ_1K)
+#define  S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMC0_BM (5000 * SZ_1K)
 // Disabled to save memory (we can't find where it's used)
 //#define  S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMC1 (9900 * SZ_1K)
 #define  S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMC2 (12288 * SZ_1K)
+#define  S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMC2_BM (5000 * SZ_1K)
 #define  S5PV210_VIDEO_SAMSUNG_MEMSIZE_MFC0 (14336 * SZ_1K)
 #define  S5PV210_VIDEO_SAMSUNG_MEMSIZE_MFC1 (21504 * SZ_1K)
 #define  S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMD (S5PV210_LCD_WIDTH * \
@@ -5427,6 +5439,19 @@ static struct platform_device *aries_devices[] __initdata = {
 	&samsung_asoc_dma,
 };
 
+static void check_bigmem(void) {
+	int bootmode = __raw_readl(S5P_INFORM6);
+	if ((bootmode == 7) || (bootmode == 9)) {
+		bigmem = true;
+		aries_media_devs[2].memsize = S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMC0_BM;
+		aries_media_devs[3].memsize = S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMC2_BM;
+	} else {
+		bigmem = false;
+		aries_media_devs[2].memsize = S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMC0;
+		aries_media_devs[3].memsize = S5PV210_VIDEO_SAMSUNG_MEMSIZE_FIMC2;
+	}
+}
+
 static void __init aries_map_io(void)
 {
 	s5p_init_io(NULL, 0, S5P_VA_CHIPID);
@@ -5436,6 +5461,7 @@ static void __init aries_map_io(void)
 	#ifndef CONFIG_S5P_HIGH_RES_TIMERS
 		s5p_set_timer_source(S5P_PWM3, S5P_PWM4);
 	#endif
+	check_bigmem();
 	s5p_reserve_bootmem(aries_media_devs,
 		ARRAY_SIZE(aries_media_devs), S5P_RANGE_MFC);
 #ifdef CONFIG_MTD_ONENAND
