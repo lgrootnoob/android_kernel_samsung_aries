@@ -23,8 +23,7 @@ busybox mount -t ext4 /dev/block/mmcblk0p3 /cache
 image=/stage1/ramdisk.cpio
 
 if busybox test -e /cache/.startrecovery || \
-   busybox grep -q bootmode=2 /proc/cmdline || \
-   busybox grep -q bootmode=9 /proc/cmdline; then
+	busybox grep -q bootmode=2 /proc/cmdline ; then
 	# recovery boot
 	busybox rm -fr /cache/.startrecovery
 	image=/stage1/ramdisk-recovery.cpio
