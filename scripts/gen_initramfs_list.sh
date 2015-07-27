@@ -11,7 +11,6 @@
 
 # error out on errors
 set -e
-pwd > /home/jacob/tacos.txt 
 usage() {
 cat << EOF
 Usage:
