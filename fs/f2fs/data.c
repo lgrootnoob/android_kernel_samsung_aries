@@ -831,6 +831,8 @@ int do_write_data_page(struct page *page, struct f2fs_io_info *fio)
 		write_data_page(page, &dn, fio);
 		update_extent_cache(&dn);
 		set_inode_flag(F2FS_I(inode), FI_APPEND_WRITE);
+		if (page->index == 0)
+			set_inode_flag(F2FS_I(inode), FI_FIRST_BLOCK_WRITTEN);
 	}
 out_writepage:
 	f2fs_put_dnode(&dn);
