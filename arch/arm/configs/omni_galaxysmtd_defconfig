@@ -3011,3 +3011,10 @@ CONFIG_HAS_IOMEM=y
 CONFIG_HAS_DMA=y
 CONFIG_NLATTR=y
 # CONFIG_AVERAGE is not set
+<<<<<<< HEAD
+=======
+CONFIG_FORCE_FAST_CHARGE=y
+CONFIG_BLX=y
+CONFIG_LIVE_OC=y
+CONFIG_CUSTOM_VOLTAGE=y
+>>>>>>> 80bc1a8... Added liveOC support (experimental)
