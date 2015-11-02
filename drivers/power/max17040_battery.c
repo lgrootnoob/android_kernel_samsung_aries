@@ -25,7 +25,7 @@
 #if defined (CONFIG_SAMSUNG_GALAXYS4G)
 #include <linux/interrupt.h>
 #include <linux/irq.h>
-
+#endif
 #ifdef CONFIG_BLX
 #include <linux/blx.h>
 #endif

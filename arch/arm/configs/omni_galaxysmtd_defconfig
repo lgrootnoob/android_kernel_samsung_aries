@@ -3017,4 +3017,11 @@ CONFIG_FORCE_FAST_CHARGE=y
 CONFIG_BLX=y
 CONFIG_LIVE_OC=y
 CONFIG_CUSTOM_VOLTAGE=y
+<<<<<<< HEAD
 >>>>>>> 80bc1a8... Added liveOC support (experimental)
+=======
+CONFIG_GENERIC_BLN=y
+CONFIG_FB_VOODOO=y
+CONFIG_FB_VOODOO_DEBUG_LOG=n
+CONFIG_DYNAMIC_PAGE_WRITEBACK=y
+>>>>>>> f2ffb89... Dynamic management of dirty page writebacks
