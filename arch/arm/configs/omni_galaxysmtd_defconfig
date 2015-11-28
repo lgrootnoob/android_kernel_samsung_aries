@@ -3024,4 +3024,8 @@ CONFIG_GENERIC_BLN=y
 CONFIG_FB_VOODOO=y
 CONFIG_FB_VOODOO_DEBUG_LOG=n
 CONFIG_DYNAMIC_PAGE_WRITEBACK=y
+<<<<<<< HEAD
 >>>>>>> f2ffb89... Dynamic management of dirty page writebacks
+=======
+CONFIG_ALLOW_CPU_ALIGNMENT=y
+>>>>>>> 753f149... Allow CPU unaligned access
