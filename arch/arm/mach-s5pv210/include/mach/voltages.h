@@ -26,8 +26,8 @@
 
 #endif
 
-#define ARMBOOT 1250000
-#define INTBOOT 1125000
+#define ARMBOOT 1350000
+#define INTBOOT 1150000
 
 #if defined(CONFIG_SAMSUNG_GALAXYS4G)
 
