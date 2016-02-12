@@ -58,7 +58,6 @@ static const bool queue_idling_enabled[] = {
 	false,	/* ROWQ_PRIO_LOW_SWRITE */
 };
 
-<<<<<<< HEAD
 /* Flags indicating whether the queue can notify on urgent requests */
 static const bool urgent_queues[] = {
 	true,	/* ROWQ_PRIO_HIGH_READ */
