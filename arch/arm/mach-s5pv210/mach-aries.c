@@ -159,6 +159,7 @@ static struct notifier_block aries_reboot_notifier = {
 	.notifier_call = aries_notifier_call,
 };
 
+#ifndef CONFIG_SAMSUNG_GALAXYS4G_TELUS_VERSION
 static void gps_gpio_init(void)
 {
 	struct device *gps_dev;
@@ -189,6 +190,7 @@ static void gps_gpio_init(void)
  err:
 	return;
 }
+#endif
 
 static void uart_switch_init(void)
 {
@@ -422,6 +424,12 @@ static struct regulator_consumer_supply ldo3_consumer[] = {
 	REGULATOR_SUPPLY("pd_io", "s3c-usbgadget")
 };
 
+#ifdef CONFIG_SAMSUNG_GALAXYS4G
+static struct regulator_consumer_supply ldo4_consumer[] = {
+	REGULATOR_SUPPLY("vadcldo4", NULL),
+};
+#endif
+
 #ifndef CONFIG_SAMSUNG_FASCINATE
 static struct regulator_consumer_supply ldo5_consumer[] = {
 	REGULATOR_SUPPLY("vmmc", NULL),
@@ -511,6 +519,24 @@ static struct regulator_init_data aries_ldo3_data = {
 	.consumer_supplies	= ldo3_consumer,
 };
 
+#ifdef CONFIG_SAMSUNG_GALAXYS4G
+static struct regulator_init_data aries_ldo4_data = {
+	.constraints	= {
+		.name		= "VADC_3.3V",
+		.min_uV		= 3300000,
+		.max_uV		= 3300000,
+		.apply_uV	= 1,
+		.always_on	= 0,
+		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+		.state_mem	= {
+			.disabled = 1,
+			.enabled = 0,
+		},
+	},
+	.num_consumer_supplies	= ARRAY_SIZE(ldo4_consumer),
+	.consumer_supplies	= ldo4_consumer,
+};
+#else
 static struct regulator_init_data aries_ldo4_data = {
 	.constraints	= {
 		.name		= "VADC_3.3V",
@@ -524,6 +550,7 @@ static struct regulator_init_data aries_ldo4_data = {
 		},
 	},
 };
+#endif
 
 #ifndef CONFIG_SAMSUNG_FASCINATE
 static struct regulator_init_data aries_ldo5_data = {
@@ -794,7 +821,7 @@ static struct max8998_regulator_data aries_regulators[] = {
 };
 
 static struct max8998_adc_table_data temper_table[] =  {
-#if defined (CONFIG_SAMSUNG_CAPTIVATE) || defined (CONFIG_SAMSUNG_GALAXYS4G)
+#if defined (CONFIG_SAMSUNG_CAPTIVATE)
 	{  206,  700 },
 	{  220,  690 },
 	{  234,  680 },
@@ -876,6 +903,99 @@ static struct max8998_adc_table_data temper_table[] =  {
 	{  1691,  -80 },
 	{  1711,  -90 },
 	{  1731,  -100}, // 0
+#elif defined(CONFIG_SAMSUNG_GALAXYS4G)
+	/* ADC, Temperature (C)  // froyo */
+	{ 206,		700	},
+	{ 220,		690	},
+	{ 240,		680	},
+	{ 254,		670	},
+	{ 265,		660	},
+	{ 279,		650	},
+	{ 290,		640	}, // [[junghyunseok edit temperature table 20100531
+	{ 296,		630	},
+	{ 303,		620	},
+	{ 311,		610	},
+	{ 325,		600	},
+	{ 334,		590	},
+	{ 347,		580	},
+	{ 360,		570	},
+	{ 375,		560	},
+	{ 396,		550	},
+	{ 405,		540	},
+	{ 416,		530	},
+	{ 431,		520	},
+	{ 440,		510	}, // [[junghyunseok edit temperature table 20100531
+	{ 461,		500	},
+	{ 478,		490	},
+	{ 495,		480	},
+	{ 512,		470	},
+	{ 529,		460	},
+	{ 548,		450	},
+	{ 565,		440	},
+	{ 580,		430	}, // [[junghyunseok edit temperature table 20100531
+	{ 599,		420	},
+	{ 616,		410	},
+	{ 636,		400	},
+	{ 654,		390	},
+	{ 672,		380	},
+	{ 690,		370	},
+	{ 708,		360	},
+	{ 728,		350	},
+	{ 750,		340	},
+	{ 772,		330	},
+	{ 794,		320	},
+	{ 816,		310	},
+	{ 841,		300	},
+	{ 865,		290	},
+	{ 889,		280	},
+	{ 913,		270	},
+	{ 937,		260	},
+	{ 963,		250	},
+	{ 987,		240	},
+	{ 1011,		230	},
+	{ 1035,		220	},
+	{ 1059,		210	},
+	{ 1086,		200	},
+	{ 1110,		190	},
+	{ 1134,		180	},
+	{ 1158,		170	},
+	{ 1182,		160	},
+	{ 1206,		150	},
+	{ 1230,		140	},
+	{ 1254,		130	},
+	{ 1278,		120	},
+	{ 1302,		110	},
+	{ 1326,		100	},
+	{ 1346,		90	},
+	{ 1366,		80	},
+	{ 1386,		70	},
+	{ 1406,		60	},
+	{ 1420,		50	},
+	{ 1430,		40	},
+	{ 1450,		30	},
+	{ 1460,		20	},
+	{ 1470,		10	},
+	{ 1480,		0	}, // 20
+	{ 1490,		-10	},
+	{ 1500,		-20	},
+	{ 1510,		-30	},
+	{ 1550,		-40	},
+	{ 1635,		-50	},
+	{ 1649,		-60	},
+	{ 1663,		-70	},
+	{ 1677,		-80	},
+	{ 1691,		-90	},
+	{ 1705,		-100	}, // 10
+	{ 1722,		-110	},
+	{ 1739,		-120	},
+	{ 1756,		-130	},
+	{ 1773,		-140	},
+	{ 1790,		-150	},
+	{ 1804,		-160	},
+	{ 1818,		-170	},
+	{ 1832,		-180	},
+	{ 1846,		-190	},
+	{ 1859,		-200	},
 #else
 	{  264,  650 },
 	{  275,  640 },
@@ -1434,11 +1554,20 @@ static struct s3c_adc_mach_info s3c_adc_platform __initdata = {
 unsigned int HWREV;
 EXPORT_SYMBOL(HWREV);
 
+#if defined(CONFIG_SAMSUNG_GALAXYS4G)
+unsigned int VPLUSVER = 0;
+#endif
+
 /* in revisions before 0.9, there is a common mic bias gpio */
 
 static DEFINE_SPINLOCK(mic_bias_lock);
 static bool wm8994_mic_bias;
+#ifdef CONFIG_SAMSUNG_GALAXYS4G
+bool jack_mic_bias;
+EXPORT_SYMBOL(jack_mic_bias); // needed for battery hack
+#else
 static bool jack_mic_bias;
+#endif
 static void set_shared_mic_bias(void)
 {
 #if defined(CONFIG_SAMSUNG_CAPTIVATE)
@@ -1931,60 +2060,6 @@ static int ce147_power_en(int onoff)
 	return 0;
 }
 
-static int smdkc110_cam1_power(int onoff)
-{
-	int err;
-	/* Implement on/off operations */
-
-	/* CAM_VGA_nSTBY - GPB(0) */
-	err = gpio_request(S5PV210_GPB(0), "GPB");
-
-	if (err) {
-		printk(KERN_ERR "failed to request GPB for camera control\n");
-		return err;
-	}
-
-	gpio_direction_output(S5PV210_GPB(0), 0);
-	
-	mdelay(1);
-
-	gpio_direction_output(S5PV210_GPB(0), 1);
-
-	mdelay(1);
-
-	gpio_set_value(S5PV210_GPB(0), 1);
-
-	mdelay(1);
-
-	gpio_free(S5PV210_GPB(0));
-	
-	mdelay(1);
-
-	/* CAM_VGA_nRST - GPB(2) */
-	err = gpio_request(S5PV210_GPB(2), "GPB");
-
-	if (err) {
-		printk(KERN_ERR "failed to request GPB for camera control\n");
-		return err;
-	}
-
-	gpio_direction_output(S5PV210_GPB(2), 0);
-
-	mdelay(1);
-
-	gpio_direction_output(S5PV210_GPB(2), 1);
-
-	mdelay(1);
-
-	gpio_set_value(S5PV210_GPB(2), 1);
-
-	mdelay(1);
-
-	gpio_free(S5PV210_GPB(2));
-
-	return 0;
-}
-
 /*
  * Guide for Camera Configuration for Jupiter board
  * ITU CAM CH A: CE147
@@ -2040,7 +2115,7 @@ static struct s3c_platform_camera ce147 = {
 #ifdef CONFIG_VIDEO_S5KA3DFX
 /* External camera module setting */
 static DEFINE_MUTEX(s5ka3dfx_lock);
-static struct regulator *s5ka3dfx_vga_avdd;
+//static struct regulator *s5ka3dfx_vga_avdd;
 static struct regulator *s5ka3dfx_vga_vddio;
 static struct regulator *s5ka3dfx_cam_isp_host;
 static struct regulator *s5ka3dfx_vga_dvdd;
@@ -2603,8 +2678,6 @@ static struct i2c_board_info i2c_devs6[] __initdata = {
 		I2C_BOARD_INFO("max8998", (0xCC >> 1)),
 		.platform_data	= &max8998_pdata,
 		.irq		= IRQ_EINT7,
-	}, {
-		I2C_BOARD_INFO("rtc_max8998", (0x0D >> 1)),
 	},
 #endif
 };
@@ -2894,7 +2967,7 @@ static struct platform_device sec_device_jack = {
 // just4info
 // S3C_GPIO_SFN(0xF) = S3C_GPIO_EINT = S3C_GPIO_SPECIAL(0xF)
 
-struct gpio_init_data {//equivalent to initial_gpio_table in blastoff
+struct gpio_init_data {
 	uint num;
 	uint cfg;
 	uint val;
@@ -4284,7 +4357,7 @@ static unsigned int aries_sleep_gpio_table[][3] = {
 	{ S5PV210_GPA0(5), S3C_GPIO_SLP_PREV,	S3C_GPIO_PULL_NONE}, 
 	{ S5PV210_GPA0(6), S3C_GPIO_SLP_PREV,	S3C_GPIO_PULL_NONE}, 
 	{ S5PV210_GPA0(7), S3C_GPIO_SLP_PREV,	S3C_GPIO_PULL_NONE}, 
-#elif defined (CONFIG_SAMSUNG_VIBRANT) || defined (CONFIG_SAMSUNG_GALAXYS4G) && !defined(CONFIG_SAMSUNG_GALAXYS4G_TELUS_VERSION)
+#elif defined (CONFIG_SAMSUNG_VIBRANT) || defined (CONFIG_SAMSUNG_GALAXYS4G)
     { S5PV210_GPA0(4), S3C_GPIO_SLP_PREV,   S3C_GPIO_PULL_UP},
   	{ S5PV210_GPA0(5), S3C_GPIO_SLP_PREV,   S3C_GPIO_PULL_UP}, 
   	{ S5PV210_GPA0(6), S3C_GPIO_SLP_INPUT,  S3C_GPIO_PULL_DOWN}, 
@@ -4935,6 +5008,10 @@ void s3c_config_sleep_gpio(void)
 		s3c_gpio_setpull(GPIO_PS_VOUT, S3C_GPIO_PULL_DOWN);
 	}
 #endif
+
+#if defined(CONFIG_SAMSUNG_GALAXYS4G)
+       s3c_gpio_setpull(S5PV210_GPH3(5), S3C_GPIO_PULL_DOWN);
+#endif
 }
 EXPORT_SYMBOL(s3c_config_sleep_gpio);
 
@@ -5476,9 +5553,6 @@ static void __init sound_init(void)
         gpio_request(GPIO_MICBIAS_EN2, "micbias_enable2");
         gpio_request(GPIO_MICBIAS_EN, "micbias_enable");
     }
-#elif defined(CONFIG_SAMSUNG_GALAXYS4G)
-	gpio_request(GPIO_MICBIAS_EN2, "micbias_enable2");
-	gpio_request(GPIO_MICBIAS_EN, "micbias_enable");
 #else
 	gpio_request(GPIO_MICBIAS_EN, "micbias_enable");
 #endif
@@ -5589,12 +5663,19 @@ static void __init aries_machine_init(void)
 #endif
 	printk(KERN_INFO "HWREV is 0x%x\n", HWREV);
 
+#if defined(CONFIG_SAMSUNG_GALAXYS4G)
+	s3c_gpio_cfgpin(S5PV210_GPH3(5), S3C_GPIO_INPUT);
+	s3c_gpio_setpull( S5PV210_GPH3(5), S3C_GPIO_PULL_NONE);
+	VPLUSVER = gpio_get_value(S5PV210_GPH3(5));
+	printk("VPLUSVER is 0x%x\n", VPLUSVER);
+#endif
+
 	/*initialise the gpio's*/
 	aries_init_gpio();
 
+#if defined(CONFIG_SAMSUNG_CAPTIVATE)
 	/* headset/earjack detection */
-#if defined(CONFIG_SAMSUNG_CAPTIVATE) || defined(CONFIG_SAMSUNG_GALAXYS4G)
-    gpio_request(GPIO_EAR_MICBIAS_EN, "ear_micbias_enable");
+	gpio_request(GPIO_EAR_MICBIAS_EN, "ear_micbias_enable");
 #endif
 
 	gpio_request(GPIO_TOUCH_EN, "touch en");
@@ -5721,6 +5802,15 @@ static void __init aries_machine_init(void)
 	 * writes a small integer code to INFORM6).
 	 */
 	__raw_writel(0xee, S5P_INFORM6);
+
+#if defined(CONFIG_SAMSUNG_GALAXYS4G)
+	if (gpio_is_valid(GPIO_MSENSE_nRST)) {
+		if (gpio_request(GPIO_MSENSE_nRST, "GPB"))
+			printk(KERN_ERR "Failed to request GPIO_MSENSE_nRST!\n");
+		gpio_direction_output(GPIO_MSENSE_nRST, 1);
+	}
+	gpio_free(GPIO_MSENSE_nRST);
+#endif
 }
 
 #ifdef CONFIG_USB_SUPPORT
