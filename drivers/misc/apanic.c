@@ -440,8 +440,8 @@ static int apanic_writeflashpage(struct mtd_info *mtd, loff_t to,
 	return wlen;
 }
 
-extern int log_buf_copy(char *dest, int idx, int len);
-extern void log_buf_clear(void);
+//extern int log_buf_copy(char *dest, int idx, int len);
+//extern void log_buf_clear(void);
 
 /*
  * Writes the contents of the console to the specified offset in flash.
@@ -458,7 +458,7 @@ static int apanic_write_console(struct mtd_info *mtd, unsigned int off)
 	while (!last_chunk) {
 		saved_oip = oops_in_progress;
 		oops_in_progress = 1;
-		rc = log_buf_copy(ctx->bounce, idx, mtd->writesize);
+		rc = -1;
 		if (rc < 0)
 			break;
 
@@ -537,7 +537,7 @@ static int apanic(struct notifier_block *this, unsigned long event,
 	ram_console_enable_console(0);
 #endif
 
-	log_buf_clear();
+//	log_buf_clear();
 	show_state_filter(0);
 	threads_len = apanic_write_console(ctx->mtd, threads_offset);
 	if (threads_len < 0) {

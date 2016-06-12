@@ -189,7 +189,7 @@ static void debug_prompt(struct fiq_debugger_state *state)
 	debug_puts(state, "debug> ");
 }
 
-int log_buf_copy(char *dest, int idx, int len);
+// int log_buf_copy(char *dest, int idx, int len);
 static void dump_kernel_log(struct fiq_debugger_state *state)
 {
 	char buf[1024];
@@ -204,7 +204,7 @@ static void dump_kernel_log(struct fiq_debugger_state *state)
 	saved_oip = oops_in_progress;
 	oops_in_progress = 1;
 	for (;;) {
-		ret = log_buf_copy(buf, idx, 1023);
+		ret = 0;
 		if (ret <= 0)
 			break;
 		buf[ret] = 0;
@@ -508,7 +508,7 @@ static void end_syslog_dump(struct fiq_debugger_state *state)
 	int idx = 0;
 
 	while (1) {
-		ret = log_buf_copy(buf, idx, sizeof(buf) - 1);
+		ret = 0;
 		if (ret <= 0)
 			break;
 		buf[ret] = 0;
