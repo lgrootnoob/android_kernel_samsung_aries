@@ -566,11 +566,7 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 	/*
 	 * For SPI, enable CRC as appropriate.
 	 */
-	if (mmc_host_is_spi(host)) {
-		err = mmc_spi_set_crc(host, use_spi_crc);
-		if (err)
-			goto err;
-	}
+bool use_spi_crc = 0;
 
 	/*
 	 * Fetch CID from card.
